@@ -13,22 +13,33 @@
  */
 
 let computerSelection, playerSelection;
-let computerScore = 0, playerScore = 0;
+let computerScore = 0 , playerScore = 0;
+let gameWinner = false;
+let gameCount = 0;
 
-do{
-    gamer();
-} while (playerScore < 5 || computerScore < 5);
+console.log("Game start");
+game();
 
-
-function gamer(){
+function game(){
+    while (gameWinner ==  false){ 
+        gameCount++;
         computerSelection = getComputerChoice();
         playerSelection = getPlayerChoice();
-        console.log('Computer picks '+ computerSelection);
-        console.log('Player picks '+ playerSelection);
+        console.log('Round ' + gameCount + '. Computer picks '+ computerSelection + '. Player picks '+ playerSelection);
         playRound(playerSelection,computerSelection);
         console.log("Computer Score: " + computerScore + " || Player Score: " + playerScore);
+        
+        if (playerScore == 5){
+            console.log("PLAYER WINS!");
+            gameWinner = true;
+        }
+        else if (computerScore == 5){
+            console.log("COMPUTER WINS!");
+            gameWinner = true;
+        }
+    }
+    console.log("Game over");
 }
-
 
 function getComputerChoice (){
     let x = Math.floor(Math.random() * 3) + 1;
@@ -47,37 +58,36 @@ function getComputerChoice (){
 }
 
 function getPlayerChoice(){
-    const input = prompt();
-    return input;
+    let playerInput = prompt('Type your pick.');
+    let correctInput = ['rock', 'paper', 'scissors'];
+    playerInput = playerInput.toLowerCase();
+    let validInput = playerInput === correctInput;
+    if (validInput == false){
+        console.log("Invalid input");
+    }
+    return playerInput;
+    
 }
 
 function playRound(playerSelection,computerSelection){
-
     if (((playerSelection == "rock") && (computerSelection == "paper")) || 
         ((playerSelection == "paper") && (computerSelection == "scissors")) ||
         ((playerSelection == "scissors") && (computerSelection == "rock"))){
-        console.log("Computer wins!");
-        computerScore++
-        return computerScore;
+        console.log('Computer wins Round ' + gameCount + '!');
+        computerScore++;
     }
 
     if (((playerSelection == "rock") && (computerSelection == "scissors")) ||
         ((playerSelection == "scissors") && (computerSelection == "paper")) ||
         ((playerSelection == "paper") && (computerSelection == "rock"))){
-        console.log("Player wins!");
-        playerScore++
-        return playerScore;
+        console.log('Player wins Round ' + gameCount + '!');
+        playerScore++;
     }
  
+    if (((playerSelection == "rock") && (computerSelection == "rock")) ||
+        ((playerSelection == "scissors") && (computerSelection == "scissors")) ||
+        ((playerSelection == "paper") && (computerSelection == "paper"))){
+        console.log('Round ' + gameCount + '. Tie!');
+    }
     
-    if ((playerSelection == "rock") && (computerSelection == "rock")){
-        console.log("Tie!");
-    }
-    if ((playerSelection == "scissors") && (computerSelection == "scissors")){
-        console.log("Tie!");
-    }
-    if ((playerSelection == "paper") && (computerSelection == "paper")){
-        console.log("Tie!");
-    }
-    console.log("nvbty");
 }
